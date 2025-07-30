@@ -26,7 +26,7 @@ const ContextProvider = ({ children }) => {
     };
 
     return (
-        <ContextApi.Provider value={{ blogs, createBlog }}>
+        <ContextApi.Provider value={{ blogs, createBlog, setBlogs }}>
             {children}
         </ContextApi.Provider>
     )

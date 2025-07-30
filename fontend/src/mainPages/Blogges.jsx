@@ -4,17 +4,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash, faEye } from '@fortawesome/free-solid-svg-icons'
 
 const Blogges = () => {
-    const { blogs } = useContext(ContextApi)
+    const { blogs, setBlogs } = useContext(ContextApi)
 
-    const handleEdit = (id) => {
-        console.log('Edit blog:', id)
-        // Add your edit logic here
+    const handleEdit = async (id) => {
+
     }
 
-    const handleDelete = (id) => {
-        console.log('Delete blog:', id)
-        // Add your delete logic here
-    }
+    const handleDelete = async (id) => {
+        try {
+            const res = await fetch(`http://localhost:5000/api/blogs/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (res.ok) {
+                const updated = blogs.filter(blog => blog._id !== id);
+                setBlogs(updated);
+            } else {
+                alert('Failed to delete blog.');
+            }
+        } catch (err) {
+            alert('Server error.');
+        }
+    };
+
+
+
 
     return (
         <>
@@ -25,6 +39,7 @@ const Blogges = () => {
             <div className='w-11/12 m-auto mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
                 {blogs.map((blog) => (
                     <div key={blog._id} className="bg-gray-800 rounded-xl p-4 shadow-lg hover:shadow-xl transition-shadow">
+                        {console.log('Blog ID:', blog._id)}
                         <h3 className="text-lg font-bold mb-2 text-white">{blog.title}</h3>
                         <p className="text-sm text-gray-300 mb-4">{blog.description}</p>
                         <div className="flex justify-end space-x-3">
