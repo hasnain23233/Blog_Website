@@ -7,6 +7,9 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import CreatingNewBlog from './components/CreatingNewBlog';
+import SignupForm from './components/SigupForm';
+import LoginForm from './components/LoginForm';
 
 const HomeBlog = () => {
     return (
@@ -23,6 +26,9 @@ const FullWebsite = () => {
             <Navbar />
             <Routes>
                 <Route path='/' element={<HomeBlog />} />
+                <Route path='/createblog' element={<CreatingNewBlog />} />
+                <Route path='/sigup' element={<SignupForm />} />
+                <Route path='/login' element={<LoginForm />} />
             </Routes>
         </div>
     )
