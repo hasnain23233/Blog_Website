@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import './App.css'
+import FullWebsite from './FullWebsite'
 
 function App() {
 
   return (
     <>
-      <div className="text-red-500">
-        this is a blog page of the website
+      <div className='bg-gray-900 h-screen overflow-auto'>
+        <FullWebsite />
       </div>
     </>
   )
