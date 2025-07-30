@@ -1,6 +1,9 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBlog } from '@fortawesome/free-solid-svg-icons'
+import {
+    Link
+} from "react-router-dom";
 
 
 const NewBlog = () => {
@@ -13,7 +16,7 @@ const NewBlog = () => {
                 <p className='w-14 h-14 bg-[#0d2619] text-green-600 rounded-md flex items-center justify-center'>
                     <FontAwesomeIcon icon={faBlog} size='2x' />
                 </p>
-                <a href="#" className='font-semibold text-xl hover:border-b text-gray-300'>New Blog</a>
+                <Link to="/createblog" className='font-semibold text-xl hover:border-b text-gray-300'>New Blog</Link>
             </div>
         </div>
     )
