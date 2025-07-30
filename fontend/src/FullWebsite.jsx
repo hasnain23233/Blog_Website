@@ -26,7 +26,7 @@ const FullWebsite = () => {
             <Navbar />
             <Routes>
                 <Route path='/' element={<HomeBlog />} />
-                <Route path='/createblog' element={<CreatingNewBlog />} />
+                <Route path='/blogs' element={<CreatingNewBlog />} />
                 <Route path='/sigup' element={<SignupForm />} />
                 <Route path='/login' element={<LoginForm />} />
             </Routes>

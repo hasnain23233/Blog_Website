@@ -1,16 +1,27 @@
-const express = require('express')
-const app = express()
-const mongoose = require('mongoose')
-require('dotenv').config()
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();
 
-const mongolink = process.env.MONGO_URL
-const blogRouter = require('./router/blogRoutes')
+const blogRouter = require('./router/blogRoutes');
 
-app.use(blogRouter)
+const app = express();
 
-mongoose.connect(mongolink).then(() => {
-    console.log('Connected to the database')
-    app.listen(5000, () => console.log('Server running on port 5000'))
-}).catch((error) => {
-    console.log('Sorry, we can’t connect to the database:', error.message)
-})
+
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
+app.use(express.json()); // 👈 very important
+
+app.use('/api', blogRouter); // base path optional but cleaner
+
+mongoose.connect(process.env.MONGO_URL)
+    .then(() => {
+        console.log('Connected to DB');
+        app.listen(5000, () => console.log('Server running on port 5000'));
+    })
+    .catch((error) => {
+        console.error('DB connection error:', error.message);
+    });

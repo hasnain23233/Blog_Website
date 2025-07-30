@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faEnvelope, faLock, faUserPlus, faKey } from '@fortawesome/free-solid-svg-icons'
+import ContextApi from '../Context/CreateContextApi'
 
 const SignupForm = () => {
     return (

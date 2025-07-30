@@ -1,7 +1,11 @@
 const Blog = require('./../model/blogModel')
 exports.getBlog = async (req, res, next) => {
-    console.log('Contoller')
-    res.send('this is a blog page of the website')
+    try {
+        const blogs = await Blog.find();
+        res.status(200).json(blogs);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
 }
 
 exports.postBlog = async (req, res, next) => {
