@@ -58,7 +58,7 @@ const ContextProvider = ({ children }) => {
         const res = await axios.post('http://localhost:5000/api/blogs', {
             title,
             description,
-        });
+        }, { withCredentials: true });
         setBlogs((prev) => [...prev, res.data.blog]);
     };
 
