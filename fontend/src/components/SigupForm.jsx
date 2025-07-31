@@ -4,10 +4,23 @@ import { faUser, faEnvelope, faLock, faUserPlus, faKey } from '@fortawesome/free
 import ContextApi from '../Context/CreateContextApi'
 
 const SignupForm = () => {
+    const { signup } = useContext(ContextApi)
+    const [form, setForm] = useState({ username: '', email: '', password: '' });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await signup(form.username, form.email, form.password);
+            alert('Signup successful!');
+        } catch (err) {
+            alert('Signup failed!');
+        }
+    };
+
     return (
         <div className='font-inter w-full max-w-md mx-auto mt-10 p-6 bg-gray-900 rounded-2xl shadow-lg text-white'>
             <h2 className='text-2xl font-bold mb-6 text-center'>Sign Up</h2>
-            <form className='space-y-5'>
+            <form className='space-y-5' onSubmit={handleSubmit}>
 
                 {/* Username */}
                 <div>
@@ -18,6 +31,7 @@ const SignupForm = () => {
                     <input
                         type='text'
                         placeholder='Enter username'
+                        onChange={e => setForm({ ...form, username: e.target.value })}
                         className='w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500'
                         required
                     />
@@ -32,6 +46,7 @@ const SignupForm = () => {
                     <input
                         type='email'
                         placeholder='Enter email'
+                        onChange={e => setForm({ ...form, email: e.target.value })}
                         className='w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                         required
                     />
@@ -47,6 +62,7 @@ const SignupForm = () => {
                         type='password'
                         placeholder='Enter password'
                         className='w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500'
+                        onChange={e => setForm({ ...form, password: e.target.value })}
                         required
                     />
                 </div>

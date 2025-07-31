@@ -10,12 +10,15 @@ import {
 import CreatingNewBlog from './components/CreatingNewBlog';
 import SignupForm from './components/SigupForm';
 import LoginForm from './components/LoginForm';
+import ContextApi from './Context/CreateContextApi';
+import { useContext } from 'react';
 
 const HomeBlog = () => {
+    const { user } = useContext(ContextApi)
     return (
         <>
-            <NewBlog />
-            <Blogges />
+            {!user ? <p className='text-white w-11/12 m-auto mt-12'>login require</p> : <div><NewBlog />
+                <Blogges /></div>}
         </>
     )
 }
