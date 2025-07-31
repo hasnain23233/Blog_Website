@@ -17,19 +17,41 @@ exports.postSigup = async (req, res) => {
 };
 
 exports.postLogin = async (req, res) => {
-    const { email, password } = req.body;
     try {
-        const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ error: 'Invalid credentials' });
+        const { email, password } = req.body;
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
+        // Check if user exists
+        const existingUser = await User.findOne({ email });
+        if (!existingUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '3d' });
-        res.cookie('token', token, { httpOnly: true, maxAge: 259200000 }); // 3 days
-        res.json({ message: 'Login successful', username: user.username });
-    } catch (err) {
-        res.status(500).json({ error: 'Server error' });
+        // Compare password
+        const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
+        if (!isPasswordCorrect) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { id: existingUser._id },
+            process.env.JWT_SECRET || 'secret_key',
+            { expiresIn: "1d" }
+        );
+
+        // Send token as cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false, // use true in production with HTTPS
+            sameSite: 'Lax',
+            maxAge: 24 * 60 * 60 * 1000,
+        });
+
+        res.status(200).json({ message: "Login successful", user: existingUser });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
     }
 };
 
@@ -38,13 +60,19 @@ exports.postLogout = (req, res) => {
     res.json({ message: 'Logged out' });
 };
 
-exports.getMe = (req, res) => {
-    const token = req.cookies.token;
-    if (!token) return res.status(401).json({ error: 'Unauthorized' });
+exports.getMe = async (req, res) => {
+    try {
+        const token = req.cookies.token;
+        if (!token) return res.status(401).json({ message: 'Unauthorized' });
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) return res.status(403).json({ error: 'Invalid token' });
-        res.json({ userId: decoded.id });
-    });
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret_key');
+
+        const user = await User.findById(decoded.id).select('username email');
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        res.json({ username: user.username }); // or full user
+    } catch (err) {
+        res.status(401).json({ message: 'Invalid token' });
+    }
 };
 

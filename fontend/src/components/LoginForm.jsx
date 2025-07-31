@@ -1,12 +1,30 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock, faRightToBracket } from '@fortawesome/free-solid-svg-icons'
+import ContextApi from '../Context/CreateContextApi'
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+    const { login } = useContext(ContextApi);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const router = useNavigate()
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            await login(email, password);
+            alert('Login successful!');
+            router('/')
+        } catch (error) {
+            alert('Login failed. Please check your credentials.');
+        }
+    };
+
     return (
         <div className='font-inter w-full max-w-md mx-auto mt-10 p-6 bg-gray-900 rounded-2xl shadow-lg text-white'>
             <h2 className='text-2xl font-bold mb-6 text-center'>Login</h2>
-            <form className='space-y-5'>
+            <form className='space-y-5' onSubmit={handleLogin}>
 
                 {/* Email */}
                 <div>
@@ -18,6 +36,8 @@ const LoginForm = () => {
                         type='email'
                         placeholder='Enter email'
                         className='w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        onChange={(e) => setEmail(e.target.value)}
+
                         required
                     />
                 </div>
@@ -32,6 +52,7 @@ const LoginForm = () => {
                         type='password'
                         placeholder='Enter password'
                         className='w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500'
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>

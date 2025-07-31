@@ -2,16 +2,23 @@ import React, { useContext, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faEnvelope, faLock, faUserPlus, faKey } from '@fortawesome/free-solid-svg-icons'
 import ContextApi from '../Context/CreateContextApi'
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
     const { signup } = useContext(ContextApi)
-    const [form, setForm] = useState({ username: '', email: '', password: '' });
+    const [form, setForm] = useState({ username: '', email: '', password: '', conformPassword: '' });
+    const router = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await signup(form.username, form.email, form.password);
-            alert('Signup successful!');
+            if (form.password === form.conformPassword) {
+                await signup(form.username, form.email, form.password);
+                alert('Signup successful!');
+                router('/login')
+            } else {
+                alert('Password was not same')
+            }
         } catch (err) {
             alert('Signup failed!');
         }
@@ -76,6 +83,7 @@ const SignupForm = () => {
                         type='password'
                         placeholder='Re-enter password'
                         className='w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500'
+                        onChange={e => setForm({ ...form, conformPassword: e.target.value })}
                         required
                     />
                 </div>
