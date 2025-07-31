@@ -29,3 +29,18 @@ exports.deleteBlog = async (req, res) => {
         res.status(500).json({ message: 'Server error', error })
     }
 }
+
+exports.updateBlog = async (req, res) => {
+    try {
+        const { title, description } = req.body;
+        const updatedBlog = await Blog.findByIdAndUpdate(
+            req.params.id,
+            { title, description },
+            { new: true }
+        );
+        if (!updatedBlog) return res.status(404).json({ message: 'Blog not found' });
+        res.status(200).json({ message: 'Blog updated successfully', blog: updatedBlog });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+};

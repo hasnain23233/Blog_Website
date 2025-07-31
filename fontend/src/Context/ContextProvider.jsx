@@ -12,6 +12,15 @@ const ContextProvider = ({ children }) => {
         setBlogs(res.data);
     };
 
+    const updateBlog = async (id, title, description) => {
+        const res = await axios.put(`http://localhost:5000/api/blogs/${id}`, {
+            title,
+            description
+        });
+        const updated = blogs.map(blog => blog._id === id ? res.data.blog : blog);
+        setBlogs(updated);
+    };
+
     useEffect(() => {
         fetchBlogs();
     }, []);
@@ -26,7 +35,7 @@ const ContextProvider = ({ children }) => {
     };
 
     return (
-        <ContextApi.Provider value={{ blogs, createBlog, setBlogs }}>
+        <ContextApi.Provider value={{ blogs, createBlog, setBlogs, updateBlog }}>
             {children}
         </ContextApi.Provider>
     )
