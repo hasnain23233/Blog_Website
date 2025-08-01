@@ -12,7 +12,7 @@ const protect = (req, res, next) => {
             console.log('❌ Invalid token', err.message);
             return res.status(403).json({ error: 'Invalid token' });
         }
-        req.user = decoded;
+        req.user = { id: decoded.id }; // ✅ FIXED LINE
         next();
     });
 };

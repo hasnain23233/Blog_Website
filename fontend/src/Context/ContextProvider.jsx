@@ -39,7 +39,7 @@ const ContextProvider = ({ children }) => {
     };
     const login = async (email, password) => {
         const res = await axios.post('http://localhost:5000/login', { email, password }, { withCredentials: true });
-        setUser(res.data.username);
+        setUser(res.data.user.username);
         await fetchUser();
     };
 
@@ -52,10 +52,7 @@ const ContextProvider = ({ children }) => {
         setUser(null);
     };
 
-    useEffect(() => {
-        fetchBlogs();
-        fetchUser();
-    }, []);
+
 
     // Add blog
     const createBlog = async (title, description) => {
@@ -69,7 +66,14 @@ const ContextProvider = ({ children }) => {
 
         }
     };
-
+    useEffect(() => {
+        fetchUser();
+    }, []);
+    useEffect(() => {
+        if (user) {
+            fetchBlogs();
+        }
+    }, [user]);
 
     return (
         <ContextApi.Provider value={{ blogs, createBlog, setBlogs, updateBlog, user, setUser, login, signup, logout }}>

@@ -9,6 +9,11 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'blogUser',
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now,
