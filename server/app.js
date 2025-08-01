@@ -13,7 +13,7 @@ const app = express();
 app.use(cors({
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    credentials: true // ✅ this allows cookies to be sent
 }));
 app.use(express.json()); // 👈 very important
 app.use(cookieParser());
@@ -21,7 +21,6 @@ app.use(cookieParser());
 app.use(authRouter)
 app.use('/api', blogRouter); // base path optional but cleaner
 
-console.log("Connecting to MongoDB at:", process.env.MONGO_URL);
 
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,

@@ -11,12 +11,16 @@ const ContextProvider = ({ children }) => {
     // Get all blogs on load
     const fetchBlogs = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/blogs', { withCredentials: true });
-            setBlogs(res.data.blogs);
+            const res = await axios.get('http://localhost:5000/api/blogs', {
+                withCredentials: true,
+            });
+            setBlogs(res.data); // ✅ FIXED
         } catch (err) {
             console.log('Error fetching blogs:', err.response?.data?.message || err.message);
         }
     };
+
+
     const updateBlog = async (id, title, description) => {
         const res = await axios.put(`http://localhost:5000/api/blogs/${id}`, {
             title,
@@ -59,8 +63,13 @@ const ContextProvider = ({ children }) => {
             title,
             description,
         }, { withCredentials: true });
-        setBlogs((prev) => [...prev, res.data.blog]);
+
+        if (res.data.blog) {
+            setBlogs((prev = []) => [...prev, res.data.blog]);
+
+        }
     };
+
 
     return (
         <ContextApi.Provider value={{ blogs, createBlog, setBlogs, updateBlog, user, setUser, login, signup, logout }}>

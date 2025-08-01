@@ -35,7 +35,7 @@ exports.postLogin = async (req, res) => {
         // Generate JWT token
         const token = jwt.sign(
             { id: existingUser._id },
-            process.env.JWT_SECRET || 'secret_key',
+            process.env.JWT_SECRET,
             { expiresIn: "1d" }
         );
 
@@ -65,7 +65,7 @@ exports.getMe = async (req, res) => {
         const token = req.cookies.token;
         if (!token) return res.status(401).json({ message: 'Unauthorized' });
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret_key');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const user = await User.findById(decoded.id).select('username email');
         if (!user) return res.status(404).json({ message: 'User not found' });

@@ -33,6 +33,7 @@ const Blogges = () => {
         try {
             const res = await fetch(`http://localhost:5000/api/blogs/${id}`, {
                 method: 'DELETE',
+                credentials: 'include', // ✅ Add this to send the cookie token
             });
 
             if (res.ok) {
@@ -44,7 +45,8 @@ const Blogges = () => {
         } catch (err) {
             alert('Server error.');
         }
-    }
+    };
+
 
     return (
         <>
@@ -54,28 +56,33 @@ const Blogges = () => {
             </div>
 
             <div className='w-11/12 m-auto mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                {blogs.map((blog) => (
-                    <div key={blog._id} className="bg-gray-800 rounded-xl p-4 shadow-lg hover:shadow-xl transition-shadow">
-                        <h3 className="text-lg font-bold mb-2 text-white">{blog.title}</h3>
-                        <p className="text-sm text-gray-300 mb-4">{blog.description}</p>
-                        <div className="flex justify-end space-x-3">
-                            <button
-                                onClick={() => openEditModal(blog)}
-                                className="text-green-400 hover:text-green-500 transition"
-                                title="Edit"
-                            >
-                                <FontAwesomeIcon icon={faEdit} />
-                            </button>
-                            <button
-                                onClick={() => handleDelete(blog._id)}
-                                className="text-red-400 hover:text-red-500 transition"
-                                title="Delete"
-                            >
-                                <FontAwesomeIcon icon={faTrash} />
-                            </button>
+                {blogs && blogs.length > 0 ? (
+                    blogs.map((blog) => (
+                        <div key={blog._id} className="bg-gray-800 rounded-xl p-4 shadow-lg hover:shadow-xl transition-shadow">
+                            <h3 className="text-lg font-bold mb-2 text-white">{blog.title}</h3>
+                            <p className="text-sm text-gray-300 mb-4">{blog.description}</p>
+                            <div className="flex justify-end space-x-3">
+                                <button
+                                    onClick={() => openEditModal(blog)}
+                                    className="text-green-400 hover:text-green-500 transition"
+                                    title="Edit"
+                                >
+                                    <FontAwesomeIcon icon={faEdit} />
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(blog._id)}
+                                    className="text-red-400 hover:text-red-500 transition"
+                                    title="Delete"
+                                >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                ) : (
+                    <p className="text-gray-400 col-span-3 text-center">No blogs available.</p>
+                )}
+
             </div>
 
             <EditBlogModal
