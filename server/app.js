@@ -21,7 +21,14 @@ app.use(cookieParser());
 app.use(authRouter)
 app.use('/api', blogRouter); // base path optional but cleaner
 
-mongoose.connect(process.env.MONGO_URL)
+console.log("Connecting to MongoDB at:", process.env.MONGO_URL);
+
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    connectTimeoutMS: 20000,
+    socketTimeoutMS: 45000
+})
     .then(() => {
         console.log('Connected to DB');
         app.listen(5000, () => console.log('Server running on port 5000'));
