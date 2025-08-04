@@ -11,13 +11,14 @@ import CreatingNewBlog from './components/CreatingNewBlog';
 import SignupForm from './components/SigupForm';
 import LoginForm from './components/LoginForm';
 import ContextApi from './Context/CreateContextApi';
+import UnauthBlogLanding from './components/UnauthBlogLanding';
 import { useContext } from 'react';
 
 const HomeBlog = () => {
     const { user } = useContext(ContextApi)
     return (
         <>
-            {!user ? <p className='text-white w-11/12 m-auto mt-12'>login require</p> : <div><NewBlog />
+            {!user ? <UnauthBlogLanding /> : <div><NewBlog />
                 <Blogges /></div>}
         </>
     )
