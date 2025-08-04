@@ -27,7 +27,7 @@ const UnauthBlogLanding = () => {
                 <div className="text-center lg:text-left space-y-6">
                     <FontAwesomeIcon icon={faBlog} className="text-5xl text-white bg-gray-800 p-4 rounded-full shadow-lg mx-auto lg:mx-0" />
 
-                    <h1 className="text-4xl font-bold">Welcome to Hasoo's Blog</h1>
+                    <h1 className="text-4xl font-bold">Welcome to HashNode Blog</h1>
                     <p className="text-gray-300 text-lg">
                         Discover stories, thoughts & insights — but first, please login or sign up to start reading or writing.
                     </p>
