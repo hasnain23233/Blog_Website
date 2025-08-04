@@ -8,7 +8,7 @@ const EditBlogModal = ({ isOpen, onClose, blogData, onChange, onSubmit }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-            <div className="bg-gray-700 rounded-xl w-6/12 p-6 shadow-lg relative">
+            <div className="bg-gray-700 rounded-xl lg:w-6/12 sm:w-8/12 w-11/12 p-6 shadow-lg relative">
                 <h2 className="text-xl font-bold text-gray-200 mb-4">Edit Blog</h2>
                 <form onSubmit={onSubmit} className="space-y-4 ">
                     <div className="flex items-center border-b bg-gray-600 border-gray-300 rounded-lg focus-within:border-blue-500">
