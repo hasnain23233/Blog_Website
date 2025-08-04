@@ -9,22 +9,21 @@ const Navbar = () => {
     const { user, logout } = useContext(ContextApi);
 
     return (
-        <header className='h-16 flex font-inter items-center justify-between border-b border-gray-700'>
-            <nav className='w-11/12 m-auto flex items-center justify-between gap-4 text-white'>
+        <header className='sm:h-16 h-24 flex font-inter items-center justify-between border-b border-gray-700'>
+            <nav className='w-11/12 m-auto flex sm:flex-row flex-col items-center justify-between gap-4 text-white'>
                 {/* Logo and Home */}
-                <div className='flex w-8/12 gap-3'>
-                    <div className='flex items-center gap-2 border-r w-3/12 border-gray-700'>
+                <div className='flex items-center sm:justify-start justify-between xl:w-8/12 lg:w-6/12 sm:w-5/12 w-full gap-3'>
+                    <div className='flex items-center  gap-2 border-r xl:w-3/12 lg:w-5/12 sm:w-7/12  border-gray-700'>
                         <FontAwesomeIcon icon={faHashnode} size='2x' />
-                        <h1 className='font-semibold tracking-wider text-2xl'>HashNode</h1>
+                        <h1 className='font-semibold tracking-wider lg:text-2xl sm:text-xl text-lg'>HashNode</h1>
                     </div>
-                    <div className='flex items-center gap-2 w-2/12'>
-                        <FontAwesomeIcon icon={faHouse} />
-                        <Link to='/' className='font-semibold tracking-wider hover:text-blue-400'>Home</Link>
+                    <div className='w-2/12 '>
+                        <Link to='/' className='font-semibold flex items-center gap-2 sm:justify-start justify-between tracking-wider hover:text-blue-400'><FontAwesomeIcon icon={faHouse} /> <span className='sm:block hidden'>Home</span></Link>
                     </div>
                 </div>
 
                 {/* Auth Buttons or User Info */}
-                <div className='text-white gap-3 text-center w-4/12 flex items-center justify-end'>
+                <div className='text-white gap-3 text-center xl:w-4/12 lg:w-5/12 sm:w-7/12 w-full flex items-center sm:justify-end justify-between'>
                     {user ? (
                         <>
                             <span className='text-sm font-medium'>👋 Welcome, <span className='text-blue-400'>{user}</span></span>
